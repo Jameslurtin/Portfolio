@@ -1,86 +1,64 @@
-import React from 'react'
+import React from 'react';
 import instLogo from '../Logo/inst logo.png';
 import marvelLogo from '../Logo/marvel logo.png';
 import whatsLogo from '../Logo/whats logo.png';
 
-
 function Project() {
   return (
-    <div> <h className='flex justify-center bg-black text-white font-bold text-xl'>Projects</h>
-      <div className='flex gap-8 p-7  justify-center bg-black font-semibold items-center'>
+    <div className="bg-black text-white py-12">
 
-        <div className='bg-slate-500 w-96  h-96 rounded-3xl flex  justify-center   '>
-          <div > Instagaram (Clone)
-            <img src={instLogo} alt="logo" className='w-32 h-16  rounded-full pt-2' />
+      <h2 className="text-center font-bold text-2xl sm:text-3xl mb-10 py-3">Projects</h2>
+
+  
+      <div className="flex flex-col lg:grid lg:grid-cols-3 gap-8 px-6 sm:px-12 lg:px-24 items-center">
+        
+      
+        {[
+          { 
+            title: "Instagram (Clone)", 
+            logo: instLogo, 
+            link: "https://github.com/Jameslurtin/insta-app.git",
+            description: "A feature-rich replica of Instagram built with React JS and Tailwind CSS. Showcases the feed, profile, and post interactions, simulating core functionalities of the platform."
+          },
+          { 
+            title: "Marvel UI/UX", 
+            logo: marvelLogo, 
+            link: "https://github.com/Jameslurtin/MarvelUi-UX.git",
+            description: "Marvel's UI/UX using React JS and Tailwind CSS, designed to replicate a sleek, dynamic interface. Highlights responsive design, interactive components, and aesthetic visual elements."
+          },
+          { 
+            title: "WhatsApp (Clone)", 
+            logo: whatsLogo, 
+            link: "https://github.com/Jameslurtin/whatsapp-clone-react.git",
+            description: "A WhatsApp clone UI/UX developed with React JS and Tailwind CSS. Demonstrates chat interfaces, message handling, and a responsive layout."
+          }
+        ].map((project, index) => (
+          <div key={index} className="bg-slate-600 w-full max-w-lg p-6 rounded-3xl shadow-lg flex flex-col items-center text-center hover:scale-105 transition-transform duration-300">
+            
+      
+            <h3 className="font-semibold text-xl mb-3">{project.title}</h3>
+
+      
+            <img src={project.logo} alt={`${project.title} Logo`} className="w-24 h-16 rounded-full mb-4" />
+
+      
             <a
-              href="https://github.com/Jameslurtin/insta-app.git"
+              href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-400 underline mt-2 block"
+              className="text-blue-400 underline font-medium mb-3"
             >
               Visit GitHub Repository
             </a>
-            <div className=''>
-              A feature-rich replica of Instagram <br /> built with React JS and Tailwind CSS,<br />
-              focusing on a responsive <br />  user interface and dynamic components.
-              <br /> This project showcases the feed,<br />  profile, and post interactions,<br />
-              simulating core functionalities<br />  of the platform.
-            </div>
+
+        
+            <p className="text-sm sm:text-base">{project.description}</p>
           </div>
-
-
-
-        </div>
-        <div className='bg-slate-500 w-96 px-2 h-96 rounded-3xl flex justify-center'>
-          <div >Marvel Ui/Ux
-            <img src={marvelLogo} alt="logo" className='w-32 h-16  rounded-full  pt-2' />
-            <a
-              href="https://github.com/Jameslurtin/MarvelUi-UX.git"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-400 underline mt-2 block"
-            >
-              Visit GitHub Repository
-            </a>
-            <div>
-              Marvel's UI/UX using React JS <br></br> and Tailwind CSS,
-              designed to replicate<br></br> the sleek and dynamic interface <br></br>of the platform.
-              This project highlights <br></br> responsive design,
-              interactive components,
-              <br></br> and aesthetic visual elements
-              <br></br> inspired by Marvel's branding.
-            </div>
-
-
-          </div>
-
-
-        </div>
-        <div className='bg-slate-500 w-96 px-2 h-96 rounded-3xl flex justify-center'>
-          <div > Whatsapp(Clone)
-            <img src={whatsLogo} alt="logo" className='w-32 h-16  rounded-full  pt-2' />
-            <a
-              href="https://github.com/Jameslurtin/whatsapp-clone-react.git"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-400 underline mt-2 block"
-            >
-              Visit GitHub Repository
-            </a>
-            <div>
-              I have created WhatsApp clone Ui/Ux, <br></br>
-              developed using React JS and styled <br></br> with Tailwind CSS. <br></br>
-              It demonstrates chat interfaces,<br></br> message handling,<br></br>
-              and a responsive layout.
-            </div>
-          </div>
-
-        </div>
-
+        ))}
 
       </div>
     </div>
-  )
+  );
 }
 
-export default Project
+export default Project;
