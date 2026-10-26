@@ -60,7 +60,7 @@ jobs:
         run: |
           docker run -d --name portfolio-smoke -p 127.0.0.1:8080:8080 "$IMAGE"
           trap 'docker logs portfolio-smoke; docker rm -f portfolio-smoke' EXIT
-          curl --retry 10 --retry-connrefused --retry-delay 2 --fail http://127.0.0.1:8080/healthz
+          curl --retry 10 --retry-all-errors --retry-delay 2 --max-time 5 --fail http://127.0.0.1:8080/healthz
           curl --fail http://127.0.0.1:8080/ > /dev/null
           test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/.env.local)" = 404
           test "$(curl -s -o /dev/null -w '%{http_code}' -H 'Content-Type: application/json' -d '{"from_name":"CI","reply_to":"ci@example.com","subject":"Configuration check","message":"No email should be sent"}' http://127.0.0.1:8080/api/contact)" = 503
