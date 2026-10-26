@@ -1,50 +1,36 @@
-import React from "react";
-import profilePhoto from "../assets/myprofilephoto.jpg";
+import { profile } from "../data/profile";
+import { safeLink } from "../lib/preferences";
+import { useLanguage } from "../lib/Language";
+import { FaGithub, FaLinkedin, FaArrowRight, FaDownload } from "react-icons/fa";
+import profilePhoto from "../assets/profile-jameslurtin.jpeg";
+import Typewriter from "./Typewriter";
 
-function Home({ contactRef }) {
-  const resumeLink = "https://drive.google.com/file/d/1ODdXYp00kFxRqvALrgByMSpYcOiPzuCX/view?usp=sharing"; // Your actual resume link
-
-
-  const scrollToContact = () => {
-    if (contactRef && contactRef.current) {
-      contactRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
+export default function Home() {
+  const { t } = useLanguage();
   return (
-    <main className="bg-black text-white text-center py-16 w-full flex flex-col items-center gap-6 border-4 border-purple-700 px-4 sm:px-6 md:px-12 lg:px-24">
-      
-
-      <img
-        src={profilePhoto}
-        alt="Jameslurtin Veeraraj's Profile"
-        className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 object-cover rounded-full transition-transform duration-300 hover:scale-105"
-      />
-
-
-      <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
-        Hi, I'm <span className="text-green-400">Jameslurtin Veeraraj</span>.
-      </h1>
-      <p className="text-sm sm:text-base md:text-lg lg:text-xl max-w-3xl px-4 sm:px-0">
-        Pursuing a Master’s in Software Engineering at EPITA School of Engineering, Paris, France.
-      </p>
-
-  
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-4 w-full sm:w-auto">
-      
-  
-        <a
-          href={resumeLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-full sm:w-auto rounded-2xl bg-gradient-to-r from-green-500 to-red-600 px-6 py-3 text-sm sm:text-base font-semibold hover:bg-red-500 hover:text-black transition-all duration-300 cursor-pointer"
-          aria-label="View Resume"
-        >
-          Resume
-        </a>
+    <div className="hero-layout">
+      <div className="hero-content">
+        <p className="hero-tag"><span /> {t("Available for a 6-month internship")}</p>
+        <p className="eyebrow">{t("Software engineering · Paris, France")}</p>
+        <h1>{t("Jameslurtin")}<span>{t("Veeraraj")}<span className="hero-period">.</span></span></h1>
+        <p className="hero-role"><span aria-hidden="true">$ </span><Typewriter /></p>
+        <p className="hero-description">{t("Final-year MSc Software Engineering student at EPITA, Paris. I build practical AI applications with Python, FastAPI and React — from document Q&A and local voice agents to email and support automation.")}</p>
+        <ul className="hero-pills" aria-label={t("Core technologies")}>{["Python", "FastAPI", "React", "RAG", "LLM applications"].map(skill => <li key={skill}>{t(skill)}</li>)}</ul>
+        <div className="hero-actions">
+          <a className="button-primary" href="#projects">{t("Explore projects")} <FaArrowRight aria-hidden="true" /></a>
+          <a className="button-outline" href={safeLink(profile.resume)} target="_blank" rel="noreferrer">{t("Download CV")} <FaDownload aria-hidden="true" /></a>
+        </div>
+        <div className="hero-social">
+          <a href={safeLink(profile.github)} target="_blank" rel="noreferrer"><FaGithub aria-hidden="true" /> {t("GitHub")}</a>
+          <a href={safeLink(profile.linkedin)} target="_blank" rel="noreferrer"><FaLinkedin aria-hidden="true" /> {t("LinkedIn")}</a>
+        </div>
       </div>
-    </main>
+      <div className="portrait-panel">
+        <div className="portrait-topline"><span>{t("PROFILE / 01")}</span><span className="status-dot" /></div>
+        <div className="portrait-image"><img src={profilePhoto} alt={t("Jameslurtin Veeraraj")} width="360" height="430" fetchPriority="high" /><span className="scan-line" aria-hidden="true" /></div>
+        <div className="portrait-caption"><span>{t("BUILDING USEFUL SOFTWARE")}</span><span>{t("PARIS, FRANCE")}</span></div>
+      </div>
+      <a href="#about" className="hero-scroll">{t("01 — Discover my work")} <span aria-hidden="true">↓</span></a>
+    </div>
   );
 }
-
-export default Home;

@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: jameslurtin-portfolio
+    runtime: docker
+    plan: free
+    region: frankfurt
+    branch: main
+    dockerfilePath: ./portfolio/Dockerfile
+    dockerContext: ./portfolio
+    healthCheckPath: /healthz
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: EMAIL_PROVIDER
+        value: resend
+      - key: EMAIL_FROM
+        value: Jameslurtin Portfolio <onboarding@resend.dev>
+      - key: RESEND_API_KEY
+        sync: false

@@ -1,44 +1,27 @@
-import React from "react";
-
-function About() {
+import { useLanguage } from "../lib/Language";
+import projects from "../data/projects";
+export default function About() {
+  const { t } = useLanguage();
   return (
-    <div className="bg-black text-white text-center py-16 w-full flex flex-col gap-10 h-screen border-4 border-purple-700">
-    
-      <h2 className="font-bold text-3xl">About Me</h2>
-
-      <p className="px-6 sm:px-12 md:px-20 lg:max-w-[800px] mx-auto text-lg">
-        Computer Engineer, organized and dependable, successful at managing multiple priorities with a positive attitude.
-        Willing to take on added responsibilities to meet team goals.
-        Hardworking and passionate web developer eager to secure an entry-level position.
-        Ready to help teams achieve company goals.
-      </p>
-
-
-      <div className="w-full max-w-2xl mx-auto space-y-6">
-        {[
-          { skill: "HTML & CSS", width: "w-10/12" },
-          { skill: "JavaScript", width: "w-10/12" },
-          { skill: "ReactJS", width: "w-10/12" },
-          { skill: "Tailwind CSS", width: "w-10/12" },
-        ].map((item, index) => (
-          <div key={index} className="flex items-center">
-            <label className="w-2/12 font-semibold">{item.skill}</label>
-            <div className="grow bg-gray-800 rounded-full h-2.5">
-              <div className={`bg-gradient-to-r from-green-400 to-blue-500 h-2.5 rounded-full transition-transform duration-300 hover:scale-105 ${item.width}`} />
-            </div>
-          </div>
-        ))}
+    <section className="bg-black text-white py-16 px-6 md:px-16 lg:px-24">
+      <div className="max-w-6xl mx-auto">
+        <p className="text-purple-400 font-medium mb-3">{t("About")}</p>
+        <h2 className="text-3xl sm:text-4xl font-bold mb-6">{t("Practical AI. Useful software.")}</h2>
+        <div className="about-layout">
+        <div className="max-w-3xl space-y-5 text-gray-300 text-lg leading-8">
+          <p>{t("I am a final-year MSc Software Engineering student at EPITA in Paris, focused on AI automation, LLM applications and Python full-stack development. I enjoy turning manual workflows into useful software.")}</p>
+          <p>{t("My projects span document question answering with RAG, local voice AI, email automation and support-ticket assistance. I build end-to-end applications with Python, FastAPI, React, REST APIs and LLM integrations, and I am familiar with Model Context Protocol (MCP) concepts.")}</p>
+          <p>{t("I am seeking a six-month, full-time final-year internship, available immediately with an EPITA convention de stage.")}</p>
+          <p className="text-purple-300">{t("Paris, France · English B2+ · French A2, actively improving")}</p>
+        </div>
+        <dl className="about-stats">
+          <div><dt>{t("Selected projects")}</dt><dd>{projects.length}</dd></div>
+          <div><dt>{t("Months of training")}</dt><dd>6</dd></div>
+          <div><dt>{t("English")}</dt><dd>B2+</dd></div>
+          <div><dt>{t("French")}</dt><dd>A2</dd></div>
+        </dl>
+        </div>
       </div>
-
-      <div className="mt-8 text-lg">
-        <h3 className="text-2xl font-semibold mb-3">Experience:</h3>
-        <p className="font-bold text-xl">ReactJS Developer Trainee</p>
-        <p><span className="font-semibold">Duration:</span> 6 months</p>
-        <p><span className="font-semibold">Company:</span> Altos Technologies</p>
-        <p><span className="font-semibold">Location:</span> Kochi, India</p>
-      </div>
-    </div>
+    </section>
   );
 }
-
-export default About;

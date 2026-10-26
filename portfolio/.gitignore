@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.vercel
+.firebase/
+.env
+.env.*
+!.env.example
+.secret.local
+/browser-*.local.png

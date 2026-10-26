@@ -1,63 +1,27 @@
-import React from 'react';
-import instLogo from '../Logo/inst logo.png';
-import marvelLogo from '../Logo/marvel logo.png';
-import whatsLogo from '../Logo/whats logo.png';
+import { useLanguage } from "../lib/Language";
+import projects from "../data/projects";
+import ProjectCard from "./ProjectCard";
+import "./ProjectFolders.css";
 
 function Project() {
+  const { t } = useLanguage();
   return (
-    <div className="bg-black text-white py-12">
+    <section className="bg-black text-white py-16 px-4 sm:px-8 md:px-16 lg:px-24">
+      <div className="max-w-7xl mx-auto">
+        <p className="text-purple-400 font-medium mb-3">{t("Selected work")}</p>
+        <h2 className="font-bold text-3xl sm:text-4xl mb-8">{t("AI applications, built end to end")}</h2>
 
-      <h2 className="text-center font-bold text-2xl sm:text-3xl mb-10 py-3">Projects</h2>
-
-  
-      <div className="flex flex-col lg:grid lg:grid-cols-3 gap-8 px-6 sm:px-12 lg:px-24 items-center">
-        
-      
-        {[
-          { 
-            title: "Instagram (Clone)", 
-            logo: instLogo, 
-            link: "https://github.com/Jameslurtin/insta-app.git",
-            description: "A feature-rich replica of Instagram built with React JS and Tailwind CSS. Showcases the feed, profile, and post interactions, simulating core functionalities of the platform."
-          },
-          { 
-            title: "Marvel UI/UX", 
-            logo: marvelLogo, 
-            link: "https://github.com/Jameslurtin/MarvelUi-UX.git",
-            description: "Marvel's UI/UX using React JS and Tailwind CSS, designed to replicate a sleek, dynamic interface. Highlights responsive design, interactive components, and aesthetic visual elements."
-          },
-          { 
-            title: "WhatsApp (Clone)", 
-            logo: whatsLogo, 
-            link: "https://github.com/Jameslurtin/whatsapp-clone-react.git",
-            description: "A WhatsApp clone UI/UX developed with React JS and Tailwind CSS. Demonstrates chat interfaces, message handling, and a responsive layout."
-          }
-        ].map((project, index) => (
-          <div key={index} className="bg-slate-600 w-full max-w-lg p-6 rounded-3xl shadow-lg flex flex-col items-center text-center hover:scale-105 transition-transform duration-300">
-            
-      
-            <h3 className="font-semibold text-xl mb-3">{project.title}</h3>
-
-      
-            <img src={project.logo} alt={`${project.title} Logo`} className="w-24 h-16 rounded-full mb-4" />
-
-      
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-400 underline font-medium mb-3"
-            >
-              Visit GitHub Repository
-            </a>
-
-        
-            <p className="text-sm sm:text-base">{project.description}</p>
-          </div>
-        ))}
-
+        <div className="project-collection-label">
+          <span>{t("Project collection")} / {String(projects.length).padStart(2, "0")}</span>
+          <span>{t("Open a folder to explore")}</span>
+        </div>
+        <div className="project-folder-grid">
+          {projects.map((p, index) => (
+            <ProjectCard key={p.id} project={p} index={index} featured={index < 2} />
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 

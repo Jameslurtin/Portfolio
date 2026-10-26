@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root { color-scheme: dark; --bg: #050a0f; --bg2: #080f18; --surface: #0d1a26; --cyan: #00e5ff; --green: #00ff9d; --text: #c8d8e8; --muted: #91a9bd; --border: rgba(0,229,255,.18); }
+html { scroll-behavior: smooth; }
+html, body, #root { width: 100%; min-height: 100%; margin: 0; background: var(--bg); }
+body { font-family: "Segoe UI", Arial, sans-serif; color: var(--text); -webkit-font-smoothing: antialiased; }
+* { box-sizing: border-box; }
+section[id] { scroll-margin-top: 76px; }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 5px; }
+::selection { background: #00e5ff33; color: white; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }

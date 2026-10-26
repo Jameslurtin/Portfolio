@@ -1,75 +1,43 @@
-import React, { useRef, useState } from "react";
-import Home from "./Home";
-import About from "./About";
-import Project from "./Project";
-import Contactform from "./Contactform";
+import { profile } from "../data/profile";
+import { safeLink } from "../lib/preferences";
+import { useState, useRef, useEffect } from "react";
+import { useLanguage } from "../lib/Language";
 
-const Navbar = () => {
-  const homeRef = useRef(null);
-  const aboutMeRef = useRef(null);
-  const projectsRef = useRef(null);
-  const contactRef = useRef(null);
-  
-  // Mobile menu state
+const links = ["Home", "About", "Skills", "Experience", "Projects", "Education", "Contact"];
+
+export default function Navbar() {
+  const { t, language, changeLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
-
-  const scrollToSection = (ref) => {
-    if (ref.current) {
-      ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
-      setIsOpen(false); // Close menu on mobile after clicking
-    }
-  };
-
+  const [active, setActive] = useState("home");
+  const toggle = useRef(null);
+  useEffect(() => {
+    let frame;
+    const update = () => {
+      const sections = [...document.querySelectorAll("main > section[id]")];
+      const current = sections.filter(section => section.getBoundingClientRect().top <= 120).at(-1);
+      const atBottom = Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight - 2;
+      setActive(atBottom ? "contact" : current?.id || "home");
+    };
+    const schedule = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(update); };
+    update(); window.addEventListener("scroll", schedule, { passive: true }); window.addEventListener("resize", schedule);
+    return () => { cancelAnimationFrame(frame); window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule); };
+  }, []);
+  useEffect(() => {
+    if (!isOpen) return;
+    const dismiss = event => { if (!event.target.closest(".site-header")) setIsOpen(false); };
+    document.addEventListener("pointerdown", dismiss);
+    return () => document.removeEventListener("pointerdown", dismiss);
+  }, [isOpen]);
   return (
-    <>
-    
-      <nav className="bg-black text-white px-6 md:px-16 w-full fixed top-0 left-0 z-50">
-        <div className="py-3 flex justify-between items-center max-w-6xl mx-auto">
-          
-  
-          <div className="rounded-full bg-slate-500 text-black px-3 py-1 font-bold">
-            VJL
-          </div>
-          
-          <div className="hidden md:flex space-x-6">
-            <button onClick={() => scrollToSection(homeRef)} className="px-4 py-2 hover:text-green-400">Home</button>
-            <button onClick={() => scrollToSection(aboutMeRef)} className="px-4 py-2 hover:text-green-400">About Me</button>
-            <button onClick={() => scrollToSection(projectsRef)} className="px-4 py-2 hover:text-green-400">Projects</button>
-            <button onClick={() => scrollToSection(contactRef)} className="px-4 py-2 hover:text-green-400">Contact</button>
-          </div>
-
-        
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white">
-            ☰
-          </button>
-        </div>
-
-
-        {isOpen && (
-          <div className="md:hidden flex flex-col space-y-3 bg-gray-900 py-4 text-center">
-            <button onClick={() => scrollToSection(homeRef)} className="py-2 hover:text-green-400">Home</button>
-            <button onClick={() => scrollToSection(aboutMeRef)} className="py-2 hover:text-green-400">About Me</button>
-            <button onClick={() => scrollToSection(projectsRef)} className="py-2 hover:text-green-400">Projects</button>
-            <button onClick={() => scrollToSection(contactRef)} className="py-2 hover:text-green-400">Contact</button>
-          </div>
-        )}
+    <header className="site-header" onKeyDown={event => { if (event.key === "Escape") { setIsOpen(false); toggle.current?.focus(); } }}>
+      <a className="site-logo" href="#home" onClick={() => setIsOpen(false)}>Jameslurtin Veeraraj<span aria-hidden="true">_</span></a>
+      <button ref={toggle} className="menu-toggle" aria-label={t(isOpen ? "Close navigation" : "Open navigation")} aria-expanded={isOpen} aria-controls="site-navigation" onClick={() => setIsOpen(!isOpen)}>{isOpen ? `${t("Close")} ×` : "Menu ☰"}</button>
+      <nav id="site-navigation" aria-label={t("Main navigation")} className={isOpen ? "site-nav is-open" : "site-nav"}>
+        {links.map(label => <a key={label} href={`#${label.toLowerCase()}`} aria-current={active === label.toLowerCase() ? "location" : undefined} onClick={() => setIsOpen(false)}>{t(label)}</a>)}
+        <a href={safeLink(profile.github)} target="_blank" rel="noreferrer" onClick={() => setIsOpen(false)}>GitHub</a>
+        <a href={`?lang=${language === "en" ? "fr" : "en"}${window.location.hash}`} lang={language === "en" ? "fr" : "en"} hrefLang={language === "en" ? "fr" : "en"} aria-label={language === "en" ? "Passer en français" : "Switch to English"} onClick={event => { if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return; event.preventDefault(); changeLanguage(language === "en" ? "fr" : "en"); setIsOpen(false); }}>{language === "en" ? "FR" : "EN"}</a>
+        <a className="nav-cv" href={safeLink(profile.resume)} target="_blank" rel="noreferrer" onClick={() => setIsOpen(false)}>{t("Download CV")} ↗</a>
       </nav>
-
-  
-      <div ref={homeRef} id="home">
-        <Home contactRef={contactRef} />
-      </div>
-      <div ref={aboutMeRef} id="about-me">
-        <About />
-      </div>
-      <div ref={projectsRef} id="projects">
-        <Project />
-      </div>
-      <div ref={contactRef} id="contact">
-        <Contactform />
-      </div>
-    </>
+    </header>
   );
-};
-
-export default Navbar;
+}
